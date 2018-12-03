@@ -32,12 +32,7 @@ app.engine('hbs', exphbs({
 app.set('view engine', '.hbs');
  
  
- 
-app.get('/', function(req, res) {
- 
-    res.send('Welcome to Passport with Sequelize');
- 
-});
+
  
 //Models
 var models = require("./app/models");
@@ -45,6 +40,7 @@ var models = require("./app/models");
 //Routes
  
 var authRoute = require('./app/routes/auth.js')(app, passport);
+var operationRoute = require('./app/routes/operation.js')(app);
  
  
 //load passport strategies

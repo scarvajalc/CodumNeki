@@ -1,4 +1,8 @@
 var exports = module.exports = {}
+
+var models = require("./../models");
+var Account = models.account;
+var Mattress = models.mattress;
  
 exports.signup = function(req, res) {
  
@@ -13,8 +17,28 @@ exports.signin = function(req, res) {
 }
 
 exports.dashboard = function(req, res) {
- 
-    res.render('dashboard');
+	var userid = req.user.id;
+	Account.findAll({
+	  where: {
+	    userId: userid
+	  }
+	}).then(account => {
+		Mattress.findAll({
+		  where: {
+		    userId: userid
+		  }
+		}).then(mattress => {
+	  		
+	  		res.render('dashboard', 
+	  			{
+	  				user: req.user.firstname, 
+	  				accBalance: account[0].get("balance"), 
+	  				matBalance: mattress[0].get("balance")});
+		});
+
+	});
+
+    
  
 }
 
