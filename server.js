@@ -49,7 +49,7 @@ var authRoute = require('./app/routes/auth.js')(app, passport);
  
 //load passport strategies
  
-require('./app/config/passport/passport.js')(passport, models.user);
+require('./app/config/passport/passport.js')(passport, models.user, models.account, models.mattress);
  
  
 //Sync Database

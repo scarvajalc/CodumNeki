@@ -10,11 +10,6 @@ module.exports = function(sequelize, Sequelize) {
             type: Sequelize.INTEGER
         },
  
-        number: {
-            type: Sequelize.BIGINT,
-            notEmpty: true
-        },
- 
         balance: {
             type: Sequelize.DOUBLE,
             notEmpty: true

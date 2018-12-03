@@ -1,8 +1,10 @@
 var bCrypt = require('bcrypt-nodejs');
 
-module.exports = function(passport, user) {
+module.exports = function(passport, user, account, mattress) {
  
     var User = user;
+    var Account = account;
+    var Mattress = mattress;
     var LocalStrategy = require('passport-local').Strategy;
 
     //serialize
@@ -57,12 +59,21 @@ module.exports = function(passport, user) {
 	                firstname: req.body.firstname,
 	                lastname: req.body.lastname
 	            };
+	        
 	 
 	        User.create(data).then(function(newUser, created) {
 	            if (!newUser) {
 	                return done(null, false);
 	            }
 	            if (newUser) {
+	            	var accData = {balance : 0, userId : newUser.get("id")}
+	            	Account.create(accData).then(function(newAcc, created) {
+	            		console.log("account created");
+	            	});
+	            	var mattData = {balance : 0, userId : newUser.get("id")}
+	            	Mattress.create(mattData).then(function(newMatt, created) {
+	            		console.log("mattress created");
+	            	});
 	                return done(null, newUser);
 	            }
 	        });
