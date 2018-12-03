@@ -1,5 +1,7 @@
+
 module.exports = function(sequelize, Sequelize) {
- 
+    var Pocket = require("./pocket")(sequelize,Sequelize);
+    var Goal = require("./goal")(sequelize,Sequelize);
     var User = sequelize.define('user', {
  
         id: {
@@ -31,6 +33,9 @@ module.exports = function(sequelize, Sequelize) {
         }
  
     });
+
+    User.hasMany(Pocket);
+    User.hasMany(Goal);
  
     return User;
  
