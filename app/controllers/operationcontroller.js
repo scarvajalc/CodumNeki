@@ -25,7 +25,7 @@ exports.renderWithdraw = function(req, res){
 }
 
 exports.deposit = function(req, res){
-	var amount = req.body.amount;
+	var amount = parseInt(req.body.amount);
 	var userid = req.user.id;
 
 	Account.findAll({
@@ -43,7 +43,7 @@ exports.deposit = function(req, res){
 					operationoperationTitle:'Depositar Dinero',
 					operation: 'deposit',
 					bname: 'Depositar',
-					message: 'Se ha depoitado el dinero correctamente'
+					message: 'Se ha depositado el dinero correctamente'
 				}
 			);
 		  }
@@ -56,32 +56,45 @@ exports.deposit = function(req, res){
 }
  
 exports.withdraw = function(req, res){
-	var amount = req.body.amount;
-	console.log(amount);
-	                
-}
-/*exports.dashboard = function(req, res) {
+	var amount = parseInt(req.body.amount);
 	var userid = req.user.id;
+
 	Account.findAll({
 	  where: {
 	    userId: userid
 	  }
-	}).then(account => {
-		Mattress.findAll({
-		  where: {
-		    userId: userid
-		  }
-		}).then(mattress => {
-	  		
-	  		res.render('dashboard', 
-	  			{
-	  				user: req.user.firstname, 
-	  				accBalance: account[0].get("balance"), 
-	  				matBalance: mattress[0].get("balance")});
-		});
-
+	}).then(user =>{
+		var balance = user[0].get('balance');
+		if(balance >= amount){
+			Account.update(
+			  { balance: balance - amount },
+			  { where: { userId: userid } }
+			)
+			  .then(result =>{
+			  	res.render('deposit',
+					{
+						operationTitle:'Retirar Dinero',
+						operation: 'withdraw',
+						bname: 'Retirar',
+						message: 'Se ha retirado el dinero correctamente'
+					}
+				);
+			  }
+			    
+			  )
+		} else {
+			res.render('deposit',
+					{
+						operationTitle:'Retirar Dinero',
+						operation: 'withdraw',
+						bname: 'Retirar',
+						message: 'Fondos insuficientes'
+					}
+				);
+		}
+		  
 	});
+}
+	
+	                
 
-    
- 
-}*/
