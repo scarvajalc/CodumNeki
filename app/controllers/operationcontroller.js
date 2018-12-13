@@ -28,33 +28,39 @@ exports.deposit = function(req, res){
 	var amount = parseInt(req.body.amount);
 	var userid = req.user.id;
 
-	Account.findAll({
-	  where: {
-	    userId: userid
-	  }
-	}).then(user =>{
-		Account.update(
-		  { balance: user[0].get('balance') + amount },
-		  { where: { userId: userid } }
-		)
-		  .then(result =>{
-		  	res.render('deposit',
-				{
-					operationoperationTitle:'Depositar Dinero',
-					operation: 'deposit',
-					bname: 'Depositar',
-					message: 'Se ha depositado el dinero correctamente'
-				}
-			);
+	if(amount < 0){
+		res.render('deposit',
+		{
+			operationoperationTitle:'Depositar Dinero',
+			operation: 'deposit',
+			bname: 'Depositar',
+			message: 'No se puede depositar una cantidad Negativa'
+		});
+	}
+
+	else {
+		Account.findAll({
+		  where: {
+		    userId: userid
 		  }
-		    
-		  )
-		  
-	});
-	
-	                
+		}).then(user =>{
+			Account.update(
+			  { balance: user[0].get('balance') + amount },
+			  { where: { userId: userid } }
+			)
+			  .then(result =>{
+			  	res.render('deposit',
+					{
+						operationoperationTitle:'Depositar Dinero',
+						operation: 'deposit',
+						bname: 'Depositar',
+						message: 'Se ha depositado el dinero correctamente'
+					});
+			  })
+		});
+	}
 }
- 
+
 exports.withdraw = function(req, res){
 	var amount = parseInt(req.body.amount);
 	var userid = req.user.id;
@@ -80,7 +86,7 @@ exports.withdraw = function(req, res){
 					}
 				);
 			  }
-			    
+
 			  )
 		} else {
 			res.render('deposit',
@@ -92,9 +98,6 @@ exports.withdraw = function(req, res){
 					}
 				);
 		}
-		  
+
 	});
 }
-	
-	                
-

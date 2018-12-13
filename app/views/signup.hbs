@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html>
- 
+
 <head>
     <title></title>
 </head>
- 
+
 <body>
+  <center>
+    <h1>Sign up</h1>
     <form id="signup" name="signup" method="post" action="/signup">
         <label for="email">Email Address</label>
         <input class="text" name="email" type="email" />
+        <br>
+        <br>
         <label for="firstname">Firstname</label>
         <input name="firstname" type="text" />
+        <br><br>
         <label for="lastname">Lastname</label>
         <input name="lastname" type="text" />
+        <br><br>
         <label for="password">Password</label>
         <input name="password" type="password" />
-        <input class="btn" type="submit" value="Sign Up" />
+        <br><br>
+        <input class="btn" type="submit" value="Sign up" />
     </form>
- 
+    <br>
+    <a href="/signin">I already have an account</a>
+  </center>
+
 </body>
- 
+
 </html>
